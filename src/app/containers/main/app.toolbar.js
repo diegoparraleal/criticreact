@@ -7,6 +7,8 @@ import RestaurantIcon from '@material-ui/icons/Restaurant';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import PeopleIcon from '@material-ui/icons/People';
 import AppUser from './app.user';
+import { useContext } from 'react';
+import { CriticStore } from 'app/store/store';
 
 const StyledAppToolBar = styled.div`
   display: block;
@@ -26,6 +28,7 @@ const StyledAppToolBar = styled.div`
 `
 
 export default function AppToolBar({showRestaurants = false, showReviews = false, showUsers = false}) {
+    const {state} = useContext(CriticStore)
     return (
       <StyledAppToolBar>
         <AppBar position="relative">
@@ -49,7 +52,7 @@ export default function AppToolBar({showRestaurants = false, showReviews = false
                 <span>Users</span>
               </button>
             }
-            <AppUser className="crt-user"/>
+            <AppUser className="crt-user" googleUser={state.googleUser} />
           </Toolbar>
         </AppBar>
       </StyledAppToolBar>

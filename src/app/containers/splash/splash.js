@@ -1,8 +1,7 @@
-import { Button } from '@material-ui/core';
-import React from 'react';
 import styled from 'styled-components';
 import {criticPalette, screenSizes} from '../../theme/theme'
 import splashImage from "./../../images/home-image.jpg"
+import GoogleLoginButton from './google.login.button';
 
 const StyledSplashContainer = styled.div`
     img{
@@ -16,13 +15,13 @@ const StyledSplashContainer = styled.div`
         margin: 32px 0;
         font-weight: 300;
     }
-    Button{
+    .google-button{
         left: calc(50% - 18px);
         margin-top: 24px;
     }
 
     @media only screen and (max-width: ${screenSizes.mobile}) {
-        button{
+        google-button{
             left: calc(50% - 30px);
             margin-top: 1000px;
         }
@@ -30,11 +29,12 @@ const StyledSplashContainer = styled.div`
 `;
 
 function SplashContainer() {
+    
     return (
         <StyledSplashContainer>
             <h3 >Welcome to critic, the leading world site for restaurant reviews!</h3>
             <img src={splashImage} alt="HomeImage"/>
-            <Button variant="contained" color="primary">Login</Button>
+            <GoogleLoginButton className="google-button"/>
         </StyledSplashContainer>
     );
 }

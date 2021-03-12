@@ -1,17 +1,18 @@
 import { AppBar, Toolbar } from "@material-ui/core"
 import React from "react"
 import styled from "styled-components"
+import {criticPalette} from "./../../theme/theme"
 
 const StyledAppFooter = styled.div`
     label {
         font-size: 12px;
-        color: mat-color($critic-warn);
+        color: ${criticPalette.light};
         text-align: center;
         width: 100%;
     }
 `
 
-export default function AppFooter({className}) {
+export default function AppFooter({className = ""}) {
     return (
         <StyledAppFooter>
             <AppBar position="relative" className={className}>
