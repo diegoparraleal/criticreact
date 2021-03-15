@@ -97,12 +97,12 @@ function RestaurantCard({restaurant, showEdit = false, showDelete = false, showR
                 <Typography component="h2">{restaurant.name}</Typography>
                 <Typography component="h3">{restaurant.city} - ${restaurant.price}</Typography>
                 <Typography component="h4">{restaurant.address}</Typography>
-                    <Rating name="restaurantRating" className="crt-rating" value={restaurant.rating} size="large" readOnly  />
+                <Rating name="restaurantRating" className="crt-rating" value={restaurant.rating} size="large" readOnly  />
                 <p>{restaurant.description}</p>
                 <span className="crt-restaurant-card-links">
-                    {showEdit && <Button className="crt-button" onClick={onEditClick} >Edit</Button>}
-                    {showDelete && <Button className="crt-button" onClick={onDeleteClick} >Delete</Button>}
-                    {showReviews && <Button className="crt-button" onClick={onReviewsClick} >Reviews</Button>}
+                    {showEdit && <Button className="crt-button" onClick={() => onEditClick(restaurant.id)} >Edit</Button>}
+                    {showDelete && <Button className="crt-button" onClick={() => onDeleteClick(restaurant.id) } >Delete</Button>}
+                    {showReviews && <Button className="crt-button" onClick={() => onReviewsClick(restaurant.id) } >Reviews</Button>}
                 </span>
             </div>
         </StyledRestaurantCard>

@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RestaurantsHeader from './restaurants.header';
 import RestaurantsHeaderOwner from './restaurants.header.owner'
+import { useHistory } from 'react-router-dom';
 
 const StyledRestaurantsContainer = styled.div`
   #crt-restaurants-loadmore{
@@ -17,6 +18,7 @@ const StyledRestaurantsContainer = styled.div`
 `;
 
 function RestaurantsContainer() {
+    const history = useHistory()
     const [filter, setFilter] = useState({rating: 0, name: "", page: 0})
     const {state, dispatch} = useContext(CriticStore)
     const restaurants = state.restaurants
@@ -37,7 +39,7 @@ function RestaurantsContainer() {
 
     const deleteRestaurant = () => {}
     const editRestaurant = () => {}
-    const goToReviews = () => {}
+    const goToReviews = (restaurantId) => history.push(`/restaurants/${restaurantId}`)
     const loadMore = () => {
         setFilter({...filter, page: filter.page + 1})
     }

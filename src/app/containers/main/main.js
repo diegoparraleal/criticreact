@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import styled from 'styled-components'
 import RegisterContainer from '../register/register';
+import RestaurantDetailContainer from '../restaurant.detail/restaurant.detail';
 import RestaurantsContainer from '../restaurants/restaurants';
-import RestaurantContainer from '../restaurants/restaurants';
 import SplashContainer from '../splash/splash';
 import AppFooter from './app.footer';
 import AppToolBar from './app.toolbar';
@@ -37,7 +37,10 @@ export default function AppContainer() {
                       <Route path="/register">
                           <RegisterContainer />
                       </Route>
-                      <Route path="/restaurants">
+                      <Route exact path="/restaurants/:restaurantId">
+                        <RestaurantDetailContainer />
+                      </Route>
+                      <Route exact path="/restaurants">
                         <RestaurantsContainer />
                       </Route>
                     </>

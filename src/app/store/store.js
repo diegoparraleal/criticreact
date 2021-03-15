@@ -11,6 +11,8 @@ const initialState = {
     appUser: null,
     restaurants: [],
     restaurantsHaveMoreResults: false,
+    restaurant: {},
+    reviewsHaveMoreResults: false
 };
 const CriticStore = createContext(null);
 const { Provider } = CriticStore;
@@ -23,12 +25,16 @@ const ACTIONS = {
     },
     LOGOUT: "logout",
     APPUSER: {
-        SET: "appUser.set"
+        SET: "appUser.set",
     },
     RESTAURANTS: {
         SET: "restaurants.set",
         APPEND: "restaurants.append",
     },
+    RESTAURANT: {
+        SET: "restaurant.set",
+        APPENDREVIEWS: "restaurant.appendReviews",
+    }
 }
 
 const CriticActions = {
@@ -38,6 +44,8 @@ const CriticActions = {
     setAppUser: (appUser) => ({ type: ACTIONS.APPUSER.SET, payload: appUser}),
     setRestaurants: (restaurants) => ({ type: ACTIONS.RESTAURANTS.SET, payload: restaurants}),
     appendRestaurants: (restaurants) => ({ type: ACTIONS.RESTAURANTS.APPEND, payload: restaurants}),
+    setRestaurant: (restaurant) => ({ type: ACTIONS.RESTAURANT.SET, payload: restaurant}),
+    appendRestaurantReviews: (reviews) => ({ type: ACTIONS.RESTAURANT.APPENDREVIEWS, payload: reviews}),
 }
 
 // Reducers
@@ -51,7 +59,11 @@ const CriticStoreProvider = ( { children } ) => {
       case ACTIONS.RESTAURANTS.SET: return {...state, restaurants: action.payload, 
                                                       restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE};
       case ACTIONS.RESTAURANTS.APPEND: return {...state, restaurants: [...state.restaurants, ...action.payload], 
-                                                      restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE};
+                                                         restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE};
+      case ACTIONS.RESTAURANT.SET: return {...state, restaurant: action.payload,
+                                                     reviewsHaveMoreResults: action.payload?.reviews?.length >= REVIEWS_PER_PAGE };
+      case ACTIONS.RESTAURANT.APPENDREVIEWS: return {...state, restaurant: {...state.restaurant, reviews: [...state.restaurant.reviews, ...action.payload]},
+                                                               reviewsHaveMoreResults: action.payload.length >= REVIEWS_PER_PAGE };
       default:
         throw new Error();
     };
