@@ -1,9 +1,16 @@
 // React store
 import React, {createContext, useReducer} from 'react';
 
+// App Constants
+const RESTAURANTS_PER_PAGE = 5;
+const REVIEWS_PER_PAGE = 5;
+
 // Initial state
 const initialState = {
-    googleUser: null
+    googleUser: null,
+    appUser: null,
+    restaurants: [],
+    restaurantsHaveMoreResults: false,
 };
 const CriticStore = createContext(null);
 const { Provider } = CriticStore;
@@ -17,7 +24,11 @@ const ACTIONS = {
     LOGOUT: "logout",
     APPUSER: {
         SET: "appUser.set"
-    }
+    },
+    RESTAURANTS: {
+        SET: "restaurants.set",
+        APPEND: "restaurants.append",
+    },
 }
 
 const CriticActions = {
@@ -25,6 +36,8 @@ const CriticActions = {
     loginFailed: () => ({ type: ACTIONS.LOGIN.FAILED}),
     logout: () => ({ type: ACTIONS.LOGOUT}),
     setAppUser: (appUser) => ({ type: ACTIONS.APPUSER.SET, payload: appUser}),
+    setRestaurants: (restaurants) => ({ type: ACTIONS.RESTAURANTS.SET, payload: restaurants}),
+    appendRestaurants: (restaurants) => ({ type: ACTIONS.RESTAURANTS.APPEND, payload: restaurants}),
 }
 
 // Reducers
@@ -35,6 +48,10 @@ const CriticStoreProvider = ( { children } ) => {
       case ACTIONS.LOGIN.FAILED: return {...state, googleUser: null};
       case ACTIONS.LOGOUT: return {...state, googleUser: null};
       case ACTIONS.APPUSER.SET: return {...state, appUser: action.payload};
+      case ACTIONS.RESTAURANTS.SET: return {...state, restaurants: action.payload, 
+                                                      restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE};
+      case ACTIONS.RESTAURANTS.APPEND: return {...state, restaurants: [...state.restaurants, ...action.payload], 
+                                                      restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE};
       default:
         throw new Error();
     };
@@ -43,4 +60,4 @@ const CriticStoreProvider = ( { children } ) => {
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
 
-export { CriticActions, CriticStore, CriticStoreProvider }
+export { CriticActions, CriticStore, CriticStoreProvider, RESTAURANTS_PER_PAGE, REVIEWS_PER_PAGE}

@@ -1,6 +1,6 @@
 import { ROLES, apiService} from 'app/services/apiService';
 import { CriticActions, CriticStore } from 'app/store/store';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import clientImage from "./../../images/restaurantClient.jpg"
@@ -84,7 +84,7 @@ function RegisterContainer() {
         
         apiService.loadAppUserByEmail(googleUser.email)
             .then(appUser => validateAppUser(appUser) )
-    }, [appUser, googleUser]);
+    }, [appUser, googleUser])
 
     const validateAppUser = (appUser) => {
         dispatch(CriticActions.setAppUser(appUser))

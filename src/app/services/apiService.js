@@ -15,8 +15,19 @@ export const apiService = {
     },
 
     async loadAppUserByEmail(email) {
-        var response = await axios.get(`${SERVER_URL}/users/byEmail/${email}`)
+        const response = await axios.get(`${SERVER_URL}/users/byEmail/${email}`)
         return response.data
-    }
+    },
+
+    async loadRestaurants(rating, name, page, ownerId){
+        const params = {
+            rating: rating || null,
+            name: name || null,
+            page: page || null,
+            ownerId: ownerId || null,
+        }
+        const response = await axios.get(`${SERVER_URL}/restaurants`, { params})
+        return response.data
+    },
     
 }
