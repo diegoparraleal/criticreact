@@ -69,16 +69,17 @@ const StyledReviewCard = styled.div`
       .crt-review-card-reply{
         display: flex;
 
+        h6{
+          color: ${criticPalette.light};
+          font-weight: 400;
+          line-height: 22px;
+          font-size: 14px;
+        }
+
         span:first-child{
           height: 64px;
           min-width: 64px;
           overflow: hidden;
-
-          label{
-            color: ${criticPalette.primary};
-            font-weight: 400;
-            line-height: 22px;
-          }
 
           img{
             display: block;
@@ -118,7 +119,7 @@ const StyledReviewCard = styled.div`
   }
 `
 
-function ReviewCard({review, editable = false, showBorder = true, showEdit = false, showDelete = false, showReplyButton = false,
+function ReviewCard({review, showBorder = true, showEdit = false, showDelete = false, showReplyButton = false,
                              onEdit = (_)=> {}, onDelete = (_)=> {}, onReply = ()=> {} , onCancel = () => {}}) {
     
     const [replyComment, setReplyComment] = useState("")
@@ -149,22 +150,20 @@ function ReviewCard({review, editable = false, showBorder = true, showEdit = fal
                     <Tooltip open={review?.comment.length > 500} placement="top" title="">
                         <p>{review.comment}</p>
                     </Tooltip>
-                    {showReplyButton && 
-                        <div className="crt-review-card-reply">
-                            <span>
-                            {review.reply 
-                                ? <img src={review?.reply?.userImage} alt="userImage"/>
-                                : <label >No reply yet</label>
-                            }
-                            </span>
-                            <span>
-                                <h4>{formatDate(review?.reply?.date)}</h4>
-                                <Tooltip open={review?.reply?.comment.length > 500} placement="top" title="">
-                                    <p>{review?.reply?.comment}</p>
-                                </Tooltip>
-                            </span>
-                        </div>
-                    }
+                    <div className="crt-review-card-reply">
+                        {review.reply 
+                            ? <span><img src={review?.reply?.userImage} alt="userImage"/></span>
+                            : <Typography component="h6">No reply yet</Typography>
+                        }
+                        {review.reply != null &&
+                          <span>
+                              <h4>{formatDate(review?.reply?.date)}</h4>
+                              <Tooltip open={review?.reply?.comment.length > 500} placement="top" title="">
+                                  <p>{review?.reply?.comment}</p>
+                              </Tooltip>
+                          </span>
+                          }
+                    </div>
                 </div>
                 <form>
                     {showReplyButton && reply != null &&

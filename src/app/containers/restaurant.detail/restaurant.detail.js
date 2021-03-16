@@ -169,7 +169,7 @@ function RestaurantDetailContainer() {
                                 review={review} 
                                 showEdit={appUser?.role === ROLES.ADMIN}
                                 showDelete={appUser?.role === ROLES.ADMIN}
-                                showReplyButton={appUser?.role === ROLES.OWNER && review.reply == null}
+                                showReplyButton={appUser?.role === ROLES.OWNER}
                                 onEdit={editReview}
                                 onDelete={deleteReview}
                                 onReply={postReply} />
