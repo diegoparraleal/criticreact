@@ -1,8 +1,11 @@
 import { Button, TextField } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import React, { useState } from 'react';
+import { datePickerDefaultProps } from '@material-ui/pickers/constants/prop-types';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import ErrorMessage from './error.message';
 const StyledReviewCardEditable = styled.div`
     padding: 16px;
 
@@ -46,40 +49,46 @@ const StyledReviewCardEditable = styled.div`
 `;
 
 function ReviewCardEditable({review, showBorder = true, onCancel, onAdd}) {
-    const [date, setDate] = useState(review.date)
-    const [rating, setRating] = useState(review.rating)
-    const [comment, setComment] = useState(review.comment)
-
-    const add = () => onAdd({...review, date, rating, comment})
-
+    const {handleSubmit, errors, control} = useForm();
+    const add = ({date, rating, comment}) => {
+        onAdd({...review, date, rating, comment})
+    }
     return (
         <StyledReviewCardEditable className={showBorder ? "crt-border" : ""}>
-            <form>
+            <form onSubmit={handleSubmit(add)}>
                 <div className="crt-review-card-header">
                     <img src={review.userImage} alt="userImage"/>
-                    <KeyboardDatePicker
-                        disableToolbar
-                        required
-                        className="crt-review-editable-date"
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        label="Date of visit"
-                        value={date}
-                        onChange={setDate}
-                    />
-                    <Rating name="reviewRating" className="crt-rating" precision={0.5} onChange={(_, value) => setRating(value)} value={rating} size="large" />
+                    <span className="crt-review-editable-date" >
+                        <Controller control={control} name="date" defaultValue={review.date}
+                                    rules={{ required: "The date is required" }}
+                                    render={(props) => (
+                                        <KeyboardDatePicker defaultValue={datePickerDefaultProps}  disableToolbar variant="inline" format="MM/dd/yyyy" margin="normal"  
+                                                            label="Date of visit" name="date" value={props.value} onChange={props.onChange} />
+                                    )} />
+                        <ErrorMessage errors={errors} name="date"/>
+                    </span>
+                    <span className="crt-rating" >
+                        <Controller control={control} name="rating" defaultValue={review.rating} 
+                                    rules={{ min: { value: 0.5, message: "The rating is required"} }}
+                                    render={(props) => (
+                                        <Rating name="reviewRating"  precision={0.5}  value={props.value} size="large"
+                                                onChange={(e, newValue) => props.onChange(newValue)} />
+                                    )} />
+                        <ErrorMessage errors={errors} name="rating"/>
+                    </span>
                 </div>
                 <div className="crt-review-card-content" >
-                    <TextField required multiline className="crt-review-editable-comment" 
-                                        value={comment}
-                                        label="Please add a review" inputProps={{ maxLength: 4000 }} 
-                                        onChange={(event) => setComment(event.target.value)} />
+                    <Controller control={control} name="comment" defaultValue={review.comment} 
+                                rules={{ required: "The comment is required" }}
+                                    render={(props) => (
+                                        <TextField  multiline className="crt-review-editable-comment"  name="comment" value={props.value} 
+                                                    label="Please add a review" onChange={props.onChange} inputProps={{ maxLength: 4000 }} />
+                                    )} />
+                    <ErrorMessage errors={errors} name="comment"/>
                 </div>
                 <div className="crt-review-card-buttons" >
                     <Button variant="outlined" color="secondary" onClick={onCancel}>Cancel</Button>
-                    <Button variant="contained" color="secondary" onClick={add}>Add</Button>
+                    <Button variant="contained" color="secondary" type="submit">Add</Button>
                 </div>
             </form>
         </StyledReviewCardEditable>

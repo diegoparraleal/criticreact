@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ReviewCard from 'app/components/review.card';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReviewCardEditable from 'app/components/review.card.editable';
 
 const StyledRestaurantDetailContainer = styled.div`
@@ -84,6 +84,7 @@ const StyledRestaurantDetailContainer = styled.div`
 `
 
 function RestaurantDetailContainer() {
+    // @ts-ignore
     const {restaurantId} = useParams();
     const [fetchFlag, setFetchFlag] = React.useState(0);
     const [page, setPage] = useState(0)

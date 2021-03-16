@@ -34,6 +34,14 @@ const GlobalStyle = createGlobalStyle`
     color: ${criticPalette.primary} !important;
     font-size: 13px !important;
   }
+
+  .crt-error{
+    display: block;
+    color: red;
+    font-size: 12px;
+    width: 100%;
+    text-align: left;
+  }
 `
 
 export default GlobalStyle

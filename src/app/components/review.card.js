@@ -146,7 +146,7 @@ function ReviewCard({review, editable = false, showBorder = true, showEdit = fal
                     <Rating name="reviewRating" className="crt-rating" value={review.rating} size="large" readOnly  />
                 </div>
                 <div className="crt-review-card-content">
-                    <Tooltip open={review?.comment.length > 500} placement="top" title="Comment">
+                    <Tooltip open={review?.comment.length > 500} placement="top" title="">
                         <p>{review.comment}</p>
                     </Tooltip>
                     {showReplyButton && 
@@ -159,7 +159,7 @@ function ReviewCard({review, editable = false, showBorder = true, showEdit = fal
                             </span>
                             <span>
                                 <h4>{formatDate(review?.reply?.date)}</h4>
-                                <Tooltip open={review?.reply?.comment.length > 500} placement="top" title="Comment">
+                                <Tooltip open={review?.reply?.comment.length > 500} placement="top" title="">
                                     <p>{review?.reply?.comment}</p>
                                 </Tooltip>
                             </span>
