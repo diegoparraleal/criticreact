@@ -1,3 +1,4 @@
+import { ROLES } from 'app/services/apiService';
 import { CriticStore } from 'app/store/store';
 import React, { useContext } from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
@@ -5,6 +6,7 @@ import styled from 'styled-components'
 import RegisterContainer from '../register/register';
 import RestaurantDetailContainer from '../restaurant.detail/restaurant.detail';
 import RestaurantsContainer from '../restaurants/restaurants';
+import ReviewsContainer from '../reviews/reviews';
 import SplashContainer from '../splash/splash';
 import AppFooter from './app.footer';
 import AppToolBar from './app.toolbar';
@@ -26,10 +28,12 @@ const StyledAppContainer = styled.div`
 export default function AppContainer() {
   const {state} = useContext(CriticStore)
   const googleUser = state.googleUser
+  const appUser = state.appUser
+  const role = appUser?.role || ROLES.NONE;
   return (
       <StyledAppContainer>
         <Router>
-          <AppToolBar></AppToolBar>
+          <AppToolBar showRestaurants={role === ROLES.OWNER || role === ROLES.ADMIN} showReviews={role === ROLES.OWNER} showUsers={role === ROLES.ADMIN} />
           <div id="crt-content">
               <Switch>
                   {googleUser != null && 
@@ -42,6 +46,9 @@ export default function AppContainer() {
                       </Route>
                       <Route exact path="/restaurants">
                         <RestaurantsContainer />
+                      </Route>
+                      <Route exact path="/reviews">
+                        <ReviewsContainer />
                       </Route>
                     </>
                   }

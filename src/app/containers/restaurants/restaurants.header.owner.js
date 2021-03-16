@@ -28,16 +28,12 @@ const StyledRestaurantHeaderOwner = styled.div`
   }
 `
 
-function RestaurantsHeaderOwner(props) {
-
-    const addRestaurant = () => {
-
-    }
+function RestaurantsHeaderOwner({onAddRestaurantClick}) {
 
     return (
         <StyledRestaurantHeaderOwner>
             <Typography variant="h4" component="label" className="crt-label-title">My restaurants</Typography>
-            <Button variant="contained" color="primary" className="crt-addRestaurant"  onClick={addRestaurant} >
+            <Button variant="contained" color="primary" className="crt-addRestaurant"  onClick={onAddRestaurantClick} >
                 <BusinessIcon/>
                 <Typography component="h5">Add Restaurant</Typography>
             </Button>

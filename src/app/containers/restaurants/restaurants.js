@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import RestaurantsHeader from './restaurants.header';
 import RestaurantsHeaderOwner from './restaurants.header.owner'
 import { useHistory } from 'react-router-dom';
+import RestaurantEditable from 'app/components/restaurant.editable';
 
 const StyledRestaurantsContainer = styled.div`
   #crt-restaurants-loadmore{
@@ -20,13 +21,14 @@ const StyledRestaurantsContainer = styled.div`
 function RestaurantsContainer() {
     const history = useHistory()
     const [filter, setFilter] = useState({rating: 0, name: "", page: 0})
+    const [addingRestaurant, setAddingRestaurant] = React.useState(false);
     const {state, dispatch} = useContext(CriticStore)
     const restaurants = state.restaurants
     const appUser = state.appUser
     const restaurantsHaveMoreResults = state.restaurantsHaveMoreResults
 
     useEffect(() => {
-        apiService.loadRestaurants(filter.rating, filter.name, filter.page, null)
+        apiService.loadRestaurants(filter.rating, filter.name, filter.page, (appUser.role === ROLES.OWNER ? appUser.id : null))
                   .then(restaurants => {
                     if (filter.page > 0 && restaurants.length > 0)
                         return dispatch(CriticActions.appendRestaurants(restaurants))
@@ -37,6 +39,12 @@ function RestaurantsContainer() {
                   })
     }, [filter])
 
+    const addRestaurant = () => setAddingRestaurant(true)
+    const cancelRestaurantAddition = () => setAddingRestaurant(false)
+    const performAddRestaurant = () => {
+        setAddingRestaurant(false)
+        console.log("PERFORM ADD RESTAURANT")
+    }
     const deleteRestaurant = () => {}
     const editRestaurant = () => {}
     const goToReviews = (restaurantId) => history.push(`/restaurants/${restaurantId}`)
@@ -49,8 +57,12 @@ function RestaurantsContainer() {
 
     return (
         <StyledRestaurantsContainer>
+            {addingRestaurant && 
+                <RestaurantEditable restaurant={{}} title="Add Restaurant" confirmButton="Add" 
+                                    onCancel={cancelRestaurantAddition} onConfirm={performAddRestaurant} />
+            }
             {appUser?.role === "owner" &&
-                <RestaurantsHeaderOwner/>
+                <RestaurantsHeaderOwner onAddRestaurantClick={addRestaurant}/>
             }
             <RestaurantsHeader filter={filter} onFilterChanged={changeFilter}/>
             <div id="crt-restaurants-content">

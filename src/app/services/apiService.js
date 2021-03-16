@@ -10,8 +10,8 @@ export const ROLES = {
 
 export const apiService = { 
     
-    createAppUser: (appUser) => {
-        return axios.post(`${SERVER_URL}/users/`, appUser)
+    async createAppUser(appUser){
+        return await axios.post(`${SERVER_URL}/users/`, appUser)
     },
 
     async loadAppUserByEmail(email) {
@@ -43,8 +43,20 @@ export const apiService = {
         return response.data
     },
 
-    postReview: (restaurantId, review) => {
-        return axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, review)
+    async postReview(restaurantId, review){
+        return await axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, review)
+    },
+
+    async loadPendingReviews(ownerId){
+        const params = {
+            ownerId: ownerId || null,
+        }
+        const response = await axios.get(`${SERVER_URL}/reviews/pending`, {params})
+        return response.data
+    },
+
+    async postReply(restaurantId, reviewId, reply){
+        return await axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews/${reviewId}/reply`, reply)
     },
     
 }

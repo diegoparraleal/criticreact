@@ -2,7 +2,9 @@ import { Button, TextField, Tooltip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { criticPalette } from 'app/theme/theme';
 import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import ReplyCardEditable from './reply.card.editable';
 
 const StyledReviewCard = styled.div`
   position: relative;
@@ -117,21 +119,21 @@ const StyledReviewCard = styled.div`
       }
     }
   }
+
+  
+
 `
 
-function ReviewCard({review, showBorder = true, showEdit = false, showDelete = false, showReplyButton = false,
-                             onEdit = (_)=> {}, onDelete = (_)=> {}, onReply = ()=> {} , onCancel = () => {}}) {
-    
-    const [replyComment, setReplyComment] = useState("")
+function ReviewCard({review, className = "", showBorder = true, showEdit = false, showDelete = false, showReplyButton = false,
+                             onEdit = (_)=> {}, onDelete = (_)=> {}, onReply = ()=> {}}) {
     const reply = review?.reply
-
     const formatDate = (date) => {
         if (date === null) return ""
         return new Date(date).toLocaleDateString('en-US')
     }
 
     return (
-        <StyledReviewCard className={showBorder ? "crt-border" : ""}>
+        <StyledReviewCard className={showBorder ? `crt-border ${className}` : className}>
             <div className="crt-review-card-wrapper">
                 <div className="crt-review-card-header">
                     <img src={review.userImage} alt="userImage"/>
@@ -153,7 +155,7 @@ function ReviewCard({review, showBorder = true, showEdit = false, showDelete = f
                     <div className="crt-review-card-reply">
                         {review.reply 
                             ? <span><img src={review?.reply?.userImage} alt="userImage"/></span>
-                            : <Typography component="h6">No reply yet</Typography>
+                            : !showReplyButton ? <Typography component="h6">No reply yet</Typography> : <></>
                         }
                         {review.reply != null &&
                           <span>
@@ -164,25 +166,14 @@ function ReviewCard({review, showBorder = true, showEdit = false, showDelete = f
                           </span>
                           }
                     </div>
+                    {showReplyButton && reply === null &&
+                      <ReplyCardEditable reply={reply} onReply={onReply}/>
+                    }
                 </div>
-                <form>
-                    {showReplyButton && reply != null &&
-                        <div className="crt-review-reply-editable" >
-                            <TextField required multiline className="crt-review-reply-comment" 
-                                        label="Please add a reply to this review" inputProps={{ maxLength: 4000 }} 
-                                        onChange={(event) => setReplyComment(event.target.value)} />
-                        </div>
-                    }
-                    {showReplyButton &&
-                        <div className="crt-review-card-buttons" >
-                            <Button variant="contained" color="secondary" onClick={() => onReply()}>Reply</Button>
-                        </div>
-                    }
-                </form>
+                
             </div>
         </StyledReviewCard>
     );
 }
-
 
 export default ReviewCard;

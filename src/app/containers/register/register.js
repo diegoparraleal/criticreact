@@ -88,7 +88,7 @@ function RegisterContainer() {
 
     const validateAppUser = (appUser) => {
         dispatch(CriticActions.setAppUser(appUser))
-        if (appUser.role === ROLES.USER){
+        if (appUser.role !== ROLES.NONE){
             history.push("/restaurants")
         }
     }

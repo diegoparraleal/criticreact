@@ -9,6 +9,9 @@ import PeopleIcon from '@material-ui/icons/People';
 import AppUser from './app.user';
 import { useContext } from 'react';
 import { CriticStore } from 'app/store/store';
+import { Button, IconButton } from '@material-ui/core';
+import { criticPalette } from 'app/theme/theme';
+import { useHistory } from 'react-router-dom';
 
 const StyledAppToolBar = styled.div`
   display: block;
@@ -17,41 +20,64 @@ const StyledAppToolBar = styled.div`
     height: 48px;
     cursor: pointer;
   } 
+  #crt-menu-items{
+    flex-grow: 1;
+    text-align: right;
+
+    button{
+      color: ${criticPalette.light};
+      display: inline-block;
+      width: auto;
+      font-size: inherit;
+
+      svg{
+        margin-right: 8px;
+      }
+    }
+  }
 
   .crt-user{
     right: 0;
     height: 64px;
     width: 240px;
-    position: absolute;
+    position: relative;
     text-align: right;
   }
 `
 
 export default function AppToolBar({showRestaurants = false, showReviews = false, showUsers = false}) {
+    const history = useHistory()
     const {state} = useContext(CriticStore)
+
+    const goToRestaurants = () => history.push("/restaurants")
+    const goToReviews = () => history.push("/reviews")
+    const goToUsers = () => history.push("/users")
+
     return (
       <StyledAppToolBar>
         <AppBar position="relative">
           <Toolbar>
             <img src={logo} alt="Logo"/>
+            <span id="crt-menu-items">
             { showRestaurants && 
-              <button >
+              <IconButton onClick={goToRestaurants}>
                 <RestaurantIcon/>
                 <span>Restaurants</span>
-              </button>
+              </IconButton>
             }
             { showReviews && 
-              <button>
+              <IconButton onClick={goToReviews}>
                 <RateReviewIcon/>
                 <span>Pending Reviews</span>
-              </button>
+              </IconButton>
             }
             { showUsers && 
-              <button>
+              <IconButton onClick={goToUsers}>
                 <PeopleIcon/>
                 <span>Users</span>
-              </button>
+              </IconButton>
             }
+            </span>
             <AppUser className="crt-user" googleUser={state.googleUser} />
           </Toolbar>
         </AppBar>

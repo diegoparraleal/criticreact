@@ -50,9 +50,7 @@ const StyledReviewCardEditable = styled.div`
 
 function ReviewCardEditable({review, showBorder = true, onCancel, onAdd}) {
     const {handleSubmit, errors, control} = useForm();
-    const add = ({date, rating, comment}) => {
-        onAdd({...review, date, rating, comment})
-    }
+    const add = ({date, rating, comment}) => onAdd({...review, date, rating, comment})
     return (
         <StyledReviewCardEditable className={showBorder ? "crt-border" : ""}>
             <form onSubmit={handleSubmit(add)}>
