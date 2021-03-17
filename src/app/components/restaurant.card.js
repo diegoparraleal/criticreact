@@ -1,6 +1,5 @@
 import { Button, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import { CRITICPALETTE } from 'app/theme/theme';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -83,9 +82,9 @@ const StyledRestaurantCard = styled.div`
 `;
 
 function RestaurantCard({restaurant, showEdit = false, showDelete = false, showReviews = true, 
-                         onEditClick = () => {}, 
-                         onDeleteClick  = () => {}, 
-                         onReviewsClick  = () => {}}) {
+                         onEditClick = (_) => {}, 
+                         onDeleteClick  = (_) => {}, 
+                         onReviewsClick  = (_) => {}}) {
     if (restaurant === {}) return (<>...</>)
     return (
         <StyledRestaurantCard className="crt-border">
@@ -96,7 +95,7 @@ function RestaurantCard({restaurant, showEdit = false, showDelete = false, showR
                 <Typography component="h2">{restaurant.name}</Typography>
                 <Typography component="h3">{restaurant.city} - ${restaurant.price}</Typography>
                 <Typography component="h4">{restaurant.address}</Typography>
-                <Rating name="restaurantRating" className="crt-rating" value={restaurant.rating} size="large" readOnly  />
+                <Rating name="restaurantRating" className="crt-rating" value={restaurant?.rating || 0} size="large" readOnly  />
                 <p>{restaurant.description}</p>
                 <span className="crt-restaurant-card-links">
                     {showEdit && <Button className="crt-button" onClick={() => onEditClick(restaurant.id)} >Edit</Button>}

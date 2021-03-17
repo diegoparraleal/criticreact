@@ -64,7 +64,7 @@ const CriticStoreProvider = ( { children } ) => {
     switch(action.type) {
       case ACTIONS.LOGIN.SUCCESS: return {...state, googleUser: action.payload};
       case ACTIONS.LOGIN.FAILED: return {...state, googleUser: null};
-      case ACTIONS.LOGOUT: return {...state, googleUser: null};
+      case ACTIONS.LOGOUT: return {...state, googleUser: null, appUser: null};
       case ACTIONS.APPUSER.SET: return {...state, appUser: action.payload};
       case ACTIONS.RESTAURANTS.SET: return {...state, restaurants: action.payload, 
                                                       restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE};

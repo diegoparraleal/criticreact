@@ -12,7 +12,16 @@ const StyledRestaurantEditableDialog = styled(Dialog)`
   }
 `;
 
-function RestaurantEditable({restaurant, title, confirmButton, onCancel, onConfirm}) {
+const newRestaurant = {
+    name: "",
+    description: "",
+    city: "",
+    address: "",
+    price: 0,
+    image: ""
+}
+
+function RestaurantEditable({restaurant = newRestaurant, title, confirmButton, onCancel, onConfirm}) {
     const {handleSubmit, errors, control} = useForm()
     const confirm = ({name, description, city, address, price, image}) => onConfirm({...restaurant, name, description, city, address, price, image})
     const imageUrlRegex = /^(https?:\/\/?.*)|(data:image\/jpeg.*)/i;
@@ -29,7 +38,7 @@ function RestaurantEditable({restaurant, title, confirmButton, onCancel, onConfi
                     <RequiredGoogleAutocomplete control={control} errors={errors} name="city" label="City" defaultValue={restaurant.city} maxLength={100}
                                                 options={{types: ['(cities)']}} />
                     <RequiredGoogleAutocomplete control={control} errors={errors} name="address" label="Address" defaultValue={restaurant.address} maxLength={4000} 
-                                                options={{types: ['(address)']}}/>
+                                                options={{}} />
                     <RequiredNumber control={control} errors={errors} name="price" label="Average Price" defaultValue={restaurant.price} adornment="$" />
                     <RequiredText control={control} errors={errors} name="image" label="Image url" defaultValue={restaurant.image} maxLength={4000} 
                                   pattern={imageUrlRegex} patternMessage="Please enter a valid url address"/>

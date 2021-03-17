@@ -12,13 +12,11 @@ function GoogleLoginButton({className}) {
   const clientId = env.GOOGLE_OAUTH_CLIENTID
 
   const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
     dispatch(CriticActions.loginSuccess(res.profileObj))
     history.push("/register")
   };
 
   const onFailure = (res) => {
-    console.log('Login failed: res:', res);
     dispatch(CriticActions.loginFailed())
     history.push("/")
   };

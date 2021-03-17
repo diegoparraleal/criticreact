@@ -1,12 +1,7 @@
-import { Button, TextField } from '@material-ui/core';
-import { Reply } from '@material-ui/icons';
-import { Rating } from '@material-ui/lab';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { datePickerDefaultProps } from '@material-ui/pickers/constants/prop-types';
+import { Button } from '@material-ui/core';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import ErrorMessage from './validations/error.message';
 import RequiredDate from './validations/required.date';
 import RequiredRating from './validations/required.rating';
 import RequiredText from './validations/required.text';
@@ -58,6 +53,7 @@ function ReviewCardEditable({review, showBorder = true, editing=false, onCancel 
         if (!editing) return onAdd({...review, date, rating, comment})
         onEdit({...review, date, rating, comment, reply: (review.reply != null ? {...review.reply, comment: replyComment} : null)})
     }
+    if (review === null) return (<>...</>)
     return (
         <StyledReviewCardEditable className={showBorder ? "crt-border" : ""}>
             <form onSubmit={handleSubmit(confirm)}>

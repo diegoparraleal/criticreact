@@ -9,7 +9,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import AppUser from './app.user';
 import { useContext } from 'react';
 import { CriticStore } from 'app/store/store';
-import { Button, IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { CRITICPALETTE } from 'app/theme/theme';
 import { useHistory } from 'react-router-dom';
 

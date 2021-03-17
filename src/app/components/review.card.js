@@ -1,8 +1,6 @@
-import { Button, TextField, Tooltip, Typography } from '@material-ui/core';
+import { Button, Tooltip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { CRITICPALETTE } from 'app/theme/theme';
-import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import ReplyCardEditable from './reply.card.editable';
 
@@ -124,7 +122,15 @@ const StyledReviewCard = styled.div`
 
 `
 
-function ReviewCard({review, className = "", showBorder = true, showEdit = false, showDelete = false, showReplyButton = false,
+const newReview = {
+  date: new Date(),
+  userImage: "",
+  rating: 0,
+  comment: "",
+  reply: null
+}
+
+function ReviewCard({review = newReview, className = "", showBorder = true, showEdit = false, showDelete = false, showReplyButton = false,
                              onEdit = (_)=> {}, onDelete = (_)=> {}, onReply = ()=> {}}) {
     const reply = review?.reply
     const formatDate = (date) => {
@@ -167,7 +173,7 @@ function ReviewCard({review, className = "", showBorder = true, showEdit = false
                           }
                     </div>
                     {showReplyButton && reply === null &&
-                      <ReplyCardEditable reply={reply} onReply={onReply}/>
+                      <ReplyCardEditable onReply={onReply}/>
                     }
                 </div>
                 

@@ -19,17 +19,18 @@ const StyledReplyCardEditable = styled.div`
   }
 `;
 
-
-function ReplyCardEditable({reply, onReply}) {
+function ReplyCardEditable({onReply}) {
     const {control, handleSubmit, errors} = useForm()
-    
+    const reply = {
+      comment: ""
+    }
     const postReply = ({comment}) => onReply({...reply, comment})
     
     return (
         <StyledReplyCardEditable>
             <form onSubmit={handleSubmit(postReply)}>
                 <div className="crt-review-reply-editable" >
-                    <Controller control={control} name="comment" defaultValue={reply?.comment} 
+                    <Controller control={control} name="comment" defaultValue={reply.comment} 
                                 rules={{ required: "The reply is required" }}
                                 render={(props) => (
                                     <TextField  multiline className="crt-review-reply-comment" value={props.value} fullWidth={true}

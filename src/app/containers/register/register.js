@@ -1,6 +1,6 @@
 import { ROLES, apiService} from 'app/services/apiService';
 import { CriticActions, CriticStore } from 'app/store/store';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import clientImage from "./../../images/restaurantClient.jpg"
@@ -73,6 +73,7 @@ const StyledRegisterContainer = styled.div`
 `;
 
 function RegisterContainer() {
+    const [fetchFlag, setFetchFlag] = useState(0)
     const {state, dispatch} = useContext(CriticStore)
     const history = useHistory()
     const googleUser = state.googleUser
@@ -83,8 +84,10 @@ function RegisterContainer() {
         if (appUser) return
         
         apiService.loadAppUserByEmail(googleUser.email)
-            .then(appUser => validateAppUser(appUser) )
-    }, [appUser, googleUser])
+                  .then(appUser => validateAppUser(appUser) )
+                  .catch( () => dispatch(CriticActions.setAppUser(null)) )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [appUser, googleUser, fetchFlag])
 
     const validateAppUser = (appUser) => {
         dispatch(CriticActions.setAppUser(appUser))
@@ -93,23 +96,23 @@ function RegisterContainer() {
         }
     }
     
-    const selectRestaurantClient = useCallback(async () => {
-        await apiService.createAppUser({
+    const selectRestaurantClient = () => {
+        apiService.createAppUser({
             name: googleUser.name,
             email: googleUser.email,
             image: googleUser.imageUrl,
             role:  ROLES.USER
-        });
-    }, [])
+        }).then( () => setFetchFlag(fetchFlag + 1) );
+    }
 
-    const selectRestaurantOwner = useCallback(() => {
+    const selectRestaurantOwner = () => {
         apiService.createAppUser({
             name: googleUser.name,
             email: googleUser.email,
             image: googleUser.imageUrl,
             role:  ROLES.ADMIN
-        });
-    }, [])
+        }).then( () => setFetchFlag(fetchFlag + 1) );
+    }
 
     return (
         <StyledRegisterContainer>

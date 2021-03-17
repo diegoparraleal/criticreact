@@ -52,12 +52,11 @@ export default function AppUser({className, googleUser}){
     }
 
     const onLogoutSuccess = (res) => {
-        console.log('Logged out Success');
         dispatch(CriticActions.logout())
     };
 
     const onFailure = () => {
-        console.log('Handle failure cases');
+        dispatch(CriticActions.logout())
     };
 
     const { signOut } = useGoogleLogout({

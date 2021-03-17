@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from '@material-ui/core';
 import RestaurantCard from 'app/components/restaurant.card';
 import { apiService, ROLES } from 'app/services/apiService';
@@ -95,7 +96,8 @@ function RestaurantDetailContainer() {
     const [newReview, setNewReview] = useState({})
     const {state, dispatch} = useContext(CriticStore)
     const {appUser, restaurant: restaurantWithDetails , reviewsHaveMoreResults} = state
-    const {restaurant, bestReview, worstReview, reviews} = restaurantWithDetails
+    const {bestReview, worstReview, reviews} = restaurantWithDetails
+    const restaurant = restaurantWithDetails?.restaurant || {}
 
     useEffect(()=>{
         apiService.loadRestaurant(restaurantId)
@@ -141,7 +143,12 @@ function RestaurantDetailContainer() {
                         setFetchFlag(fetchFlag + 1)
                   })
     }
-    const postReply = () => {}
+    const postReply = (restaurantId, reviewId, reply) => {
+        reply.user = appUser.id;
+        apiService.postReply(restaurantId, reviewId, reply)
+                  .then( () => setFetchFlag(fetchFlag + 1))
+    }
+
     const loadMore = () => {
         setPage(page + 1)
         apiService.loadRestaurantReviews(restaurantId, page + 1)
@@ -198,7 +205,7 @@ function RestaurantDetailContainer() {
                                 showReplyButton={appUser?.role === ROLES.OWNER}
                                 onEdit={editReview}
                                 onDelete={deleteReview}
-                                onReply={postReply} />
+                                onReply={(reply) => postReply(restaurantId, review.id, reply) } />
                 ))}
                 </div>
             }

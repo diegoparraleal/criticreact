@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ROLES, apiService} from 'app/services/apiService';
 import { Button } from '@material-ui/core';
 import RestaurantCard from 'app/components/restaurant.card';
@@ -78,7 +79,7 @@ function RestaurantsContainer() {
     return (
         <StyledRestaurantsContainer>
             {addingRestaurant && 
-                <RestaurantEditable restaurant={{}} title="Add Restaurant" confirmButton="Add" 
+                <RestaurantEditable title="Add Restaurant" confirmButton="Add" 
                                     onCancel={cancelRestaurantAddition} onConfirm={performAddRestaurant} />
             }
             {editingRestaurant && 
