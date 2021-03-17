@@ -1,29 +1,29 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-export const criticPalette ={
+export const CRITICPALETTE ={
     primary: '#003433',
     secondary: '#ff5b33',
     light: '#c6d9b4'
 }
 
-export const criticTheme = createMuiTheme({
+export const CRITICTHEME = createMuiTheme({
   palette: {
     primary: {
-        main: criticPalette.primary,    
+        main: CRITICPALETTE.primary,    
     },
     secondary: {
-        main: criticPalette.secondary,
+        main: CRITICPALETTE.secondary,
     },
     // @ts-ignore
     light: { 
-        backgroundColor: criticPalette.light,
+        backgroundColor: CRITICPALETTE.light,
         color: '#000'
     }
   },
 });
 
 
-export const screenSizes = {
+export const SCREENSIZES = {
   desktop: '960px',
   tablet: '768px',
   "mobile-large": '640px',

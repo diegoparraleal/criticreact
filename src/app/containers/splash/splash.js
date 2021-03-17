@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {criticPalette, screenSizes} from '../../theme/theme'
+import {CRITICPALETTE, SCREENSIZES} from '../../theme/theme'
 import splashImage from "./../../images/home-image.jpg"
 import GoogleLoginButton from './google.login.button';
 
@@ -8,7 +8,7 @@ const StyledSplashContainer = styled.div`
         width: 100%;
     }
     h3{
-        color: ${criticPalette.primary};
+        color: ${CRITICPALETTE.primary};
         font-size: 24px;
         text-align: center;
         padding: 8px 0px;
@@ -20,7 +20,7 @@ const StyledSplashContainer = styled.div`
         margin-top: 24px;
     }
 
-    @media only screen and (max-width: ${screenSizes.mobile}) {
+    @media only screen and (max-width: ${SCREENSIZES.mobile}) {
         google-button{
             left: calc(50% - 30px);
             margin-top: 1000px;

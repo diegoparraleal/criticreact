@@ -3,7 +3,7 @@ import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ReviewCard from 'app/components/review.card';
 import { apiService } from 'app/services/apiService';
 import { CriticActions, CriticStore } from 'app/store/store';
-import { criticPalette } from 'app/theme/theme';
+import { CRITICPALETTE } from 'app/theme/theme';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 const StyledReviewsContainer = styled.div`
@@ -25,11 +25,11 @@ const StyledReviewsContainer = styled.div`
     #crt-restaurant-detail-noreviews{
         margin-top: 32px;
         width: 100%;
-        border: 1px solid ${criticPalette.secondary};
+        border: 1px solid ${CRITICPALETTE.secondary};
         height: 128px;
 
         label{
-            color: ${criticPalette.primary};
+            color: ${CRITICPALETTE.primary};
             font-size: 18px;
             font-weight: 100;
             text-align: center;

@@ -1,6 +1,6 @@
 import { Button, TextField, Tooltip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import { criticPalette } from 'app/theme/theme';
+import { CRITICPALETTE } from 'app/theme/theme';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
@@ -72,7 +72,7 @@ const StyledReviewCard = styled.div`
         display: flex;
 
         h6{
-          color: ${criticPalette.light};
+          color: ${CRITICPALETTE.light};
           font-weight: 400;
           line-height: 22px;
           font-size: 14px;

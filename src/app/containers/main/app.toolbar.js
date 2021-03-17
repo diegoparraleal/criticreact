@@ -10,7 +10,7 @@ import AppUser from './app.user';
 import { useContext } from 'react';
 import { CriticStore } from 'app/store/store';
 import { Button, IconButton } from '@material-ui/core';
-import { criticPalette } from 'app/theme/theme';
+import { CRITICPALETTE } from 'app/theme/theme';
 import { useHistory } from 'react-router-dom';
 
 const StyledAppToolBar = styled.div`
@@ -25,7 +25,7 @@ const StyledAppToolBar = styled.div`
     text-align: right;
 
     button{
-      color: ${criticPalette.light};
+      color: ${CRITICPALETTE.light};
       display: inline-block;
       width: auto;
       font-size: inherit;

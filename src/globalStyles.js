@@ -1,4 +1,4 @@
-import { criticPalette, criticTheme } from 'app/theme/theme'
+import { CRITICPALETTE, CRITICTHEME } from 'app/theme/theme'
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
@@ -20,19 +20,19 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .crt-border:hover{
-    box-shadow: 0px 0px 2px 2px ${criticPalette.light};
+    box-shadow: 0px 0px 2px 2px ${CRITICPALETTE.light};
   }
   
   .crt-label-title{
-    color: ${criticTheme.palette.primary.light};
+    color: ${CRITICTHEME.palette.primary.light};
     font-size: 22px;
     font-family: 'Roboto';
   }
   
   .crt-comment-tooltip{
     max-width: unset !important;
-    background-color: ${criticPalette.light} !important;
-    color: ${criticPalette.primary} !important;
+    background-color: ${CRITICPALETTE.light} !important;
+    color: ${CRITICPALETTE.primary} !important;
     font-size: 13px !important;
     font-family: 'Roboto';
   }
@@ -44,6 +44,23 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     text-align: left;
     font-family: 'Roboto';
+  }
+
+  .crt-dialog-content {
+      width: 640px;
+
+      > div {
+          width: 100%;
+          margin-bottom: 16px;
+      }
+  }
+
+  .crt-title{
+      text-transform: uppercase;
+  }
+
+  .MuiDialog-paperWidthSm .crt-error {
+      margin-top: -14px
   }
 `
 

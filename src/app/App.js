@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { criticTheme } from './theme/theme'
+import { CRITICTHEME } from './theme/theme'
 import GlobalStyle from 'globalStyles';
 import AppContainer from './containers/main/main';
 import { CriticStoreProvider } from './store/store';
@@ -14,7 +14,7 @@ function App() {
   return (
     <CriticStoreProvider>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <ThemeProvider theme={criticTheme}>
+        <ThemeProvider theme={CRITICTHEME}>
           <AppContainer/>
           <GlobalStyle/>
         </ThemeProvider>

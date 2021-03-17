@@ -14,6 +14,7 @@ const initialState = {
     restaurant: {},
     reviewsHaveMoreResults: false,
     pendingReviews: [],
+    users: []
 };
 const CriticStore = createContext(null);
 const { Provider } = CriticStore;
@@ -38,7 +39,10 @@ const ACTIONS = {
     },
     REVIEWS: {
         PENDING: "reviews.pending"
-    }
+    },
+    USERS: {
+        SET: "users.set"
+    },
 }
 
 const CriticActions = {
@@ -51,6 +55,7 @@ const CriticActions = {
     setRestaurant: (restaurant) => ({ type: ACTIONS.RESTAURANT.SET, payload: restaurant}),
     appendRestaurantReviews: (reviews) => ({ type: ACTIONS.RESTAURANT.APPENDREVIEWS, payload: reviews}),
     setPendingReviews: (pendingReviews) => ({ type: ACTIONS.REVIEWS.PENDING, payload: pendingReviews}),
+    setUsers: (users) => ({ type: ACTIONS.USERS.SET, payload: users}),
 }
 
 // Reducers
@@ -70,6 +75,7 @@ const CriticStoreProvider = ( { children } ) => {
       case ACTIONS.RESTAURANT.APPENDREVIEWS: return {...state, restaurant: {...state.restaurant, reviews: [...state.restaurant.reviews, ...action.payload]},
                                                                reviewsHaveMoreResults: action.payload.length >= REVIEWS_PER_PAGE };
       case ACTIONS.REVIEWS.PENDING: return {...state, pendingReviews: action.payload};
+      case ACTIONS.USERS.SET: return {...state, users: action.payload};
       default:
         throw new Error();
     };

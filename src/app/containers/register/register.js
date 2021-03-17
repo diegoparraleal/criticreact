@@ -5,11 +5,11 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import clientImage from "./../../images/restaurantClient.jpg"
 import ownerImage from "./../../images/restaurantOwner.jpg"
-import {criticPalette} from "./../../theme/theme"
+import {CRITICPALETTE} from "./../../theme/theme"
 
 const StyledRegisterContainer = styled.div`
     #ctr-register-label{
-        color: ${criticPalette.primary};
+        color: ${CRITICPALETTE.primary};
         font-size: 24px;
         text-align: center;
         padding: 8px 0px;
@@ -34,7 +34,7 @@ const StyledRegisterContainer = styled.div`
             cursor: pointer;
 
             &:hover{
-                box-shadow: ${criticPalette.secondary} 0px 0px 8px 0px;
+                box-shadow: ${CRITICPALETTE.secondary} 0px 0px 8px 0px;
             }
 
             img{
@@ -43,7 +43,7 @@ const StyledRegisterContainer = styled.div`
             }
             label{
                 display: block;
-                color: ${criticPalette.primary};
+                color: ${CRITICPALETTE.primary};
                 text-align: center;
                 font-size: 22px;
                 margin-top: 16px;

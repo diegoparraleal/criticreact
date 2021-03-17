@@ -3,7 +3,7 @@ import { CriticStore, CriticActions } from "app/store/store";
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import {criticPalette} from '../../theme/theme'
+import {CRITICPALETTE} from '../../theme/theme'
 import * as env from '../../../env'
 import { useGoogleLogout } from "react-google-login";
 
@@ -20,14 +20,14 @@ const StyledUser = styled.span`
         position: absolute;
         right: 72px;
         top: 4px;
-        color: ${criticPalette.light};
+        color: ${CRITICPALETTE.light};
     }
     #ctr-email{
         font-size: 12px;
         position: absolute;
         right: 72px;
         top: 30px;
-        color: ${criticPalette.light};
+        color: ${CRITICPALETTE.light};
     }
     img {
         margin: 0 8px;

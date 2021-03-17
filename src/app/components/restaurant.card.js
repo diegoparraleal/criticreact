@@ -1,6 +1,6 @@
 import { Button, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import { criticPalette } from 'app/theme/theme';
+import { CRITICPALETTE } from 'app/theme/theme';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -75,7 +75,6 @@ const StyledRestaurantCard = styled.div`
 
       .crt-button{
         margin-right: 16px;
-        color: ${criticPalette.secondary};
         cursor: pointer;
         text-decoration: underline;
       }

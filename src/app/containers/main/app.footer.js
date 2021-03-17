@@ -1,12 +1,12 @@
 import { AppBar, Toolbar } from "@material-ui/core"
 import React from "react"
 import styled from "styled-components"
-import {criticPalette} from "./../../theme/theme"
+import {CRITICPALETTE} from "./../../theme/theme"
 
 const StyledAppFooter = styled.div`
     label {
         font-size: 12px;
-        color: ${criticPalette.light};
+        color: ${CRITICPALETTE.light};
         text-align: center;
         width: 100%;
     }

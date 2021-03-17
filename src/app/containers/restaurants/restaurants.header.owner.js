@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BusinessIcon from '@material-ui/icons/Business';
 import { Button, Typography } from '@material-ui/core';
-import {criticPalette} from './../../theme/theme'
+import {CRITICPALETTE} from './../../theme/theme'
 
 const StyledRestaurantHeaderOwner = styled.div`
   margin: 32px 0;
@@ -17,7 +17,7 @@ const StyledRestaurantHeaderOwner = styled.div`
   .crt-addRestaurant{
     position: absolute;
     right: 0px;
-    color: ${criticPalette.light};
+    color: ${CRITICPALETTE.light};
 
     h5{
       margin-left: 8px;

@@ -7,28 +7,10 @@ import RequiredGoogleAutocomplete from './validations/required.google.autocomple
 import { useForm } from 'react-hook-form';
 
 const StyledRestaurantEditableDialog = styled(Dialog)`
-    .MuiDialog-paperWidthSm {
+  .MuiDialog-paperWidthSm {
         max-width: 700px;
-    }
-
-    .crt-dialog-content {
-        width: 640px;
-
-        > div {
-            width: 100%;
-            margin-bottom: 16px;
-        }
-    }
-
-    .crt-title{
-        text-transform: uppercase;
-    }
-
-    .crt-error {
-        margin-top: -14px
-    }
+  }
 `;
-
 
 function RestaurantEditable({restaurant, title, confirmButton, onCancel, onConfirm}) {
     const {handleSubmit, errors, control} = useForm()

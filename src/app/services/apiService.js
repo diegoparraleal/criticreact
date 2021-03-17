@@ -19,6 +19,22 @@ export const apiService = {
         return response.data
     },
 
+    async loadUsers(name){
+        const params = {
+            name: name || null,
+        }
+        const response = await axios.get(`${SERVER_URL}/users`, { params})
+        return response.data
+    },
+
+    async editUser(user) {
+        return await axios.put(`${SERVER_URL}/users/${user.id}`, user);
+    },
+
+    async deleteUser(userId) {
+        return await axios.delete(`${SERVER_URL}/users/${userId}`);
+    },
+
     async loadRestaurants(rating, name, page, ownerId){
         const params = {
             rating: rating || null,

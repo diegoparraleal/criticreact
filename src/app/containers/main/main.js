@@ -8,6 +8,7 @@ import RestaurantDetailContainer from '../restaurant.detail/restaurant.detail';
 import RestaurantsContainer from '../restaurants/restaurants';
 import ReviewsContainer from '../reviews/reviews';
 import SplashContainer from '../splash/splash';
+import UsersContainer from '../users/users';
 import AppFooter from './app.footer';
 import AppToolBar from './app.toolbar';
 
@@ -49,6 +50,9 @@ export default function AppContainer() {
                       </Route>
                       <Route exact path="/reviews">
                         <ReviewsContainer />
+                      </Route>
+                      <Route exact path="/users">
+                        <UsersContainer />
                       </Route>
                     </>
                   }
