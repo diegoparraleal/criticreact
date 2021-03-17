@@ -5,7 +5,7 @@ import { datePickerDefaultProps } from '@material-ui/pickers/constants/prop-type
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import ErrorMessage from './error.message';
+import ErrorMessage from './validations/error.message';
 const StyledReviewCardEditable = styled.div`
     padding: 16px;
 

@@ -21,13 +21,16 @@ const StyledRestaurantsContainer = styled.div`
 function RestaurantsContainer() {
     const history = useHistory()
     const [filter, setFilter] = useState({rating: 0, name: "", page: 0})
-    const [addingRestaurant, setAddingRestaurant] = React.useState(false);
+    const [addingRestaurant, setAddingRestaurant] = useState(false);
+    const [editingRestaurant, setEditingRestaurant] = useState(null);
+    const [fetchFlag, setFetchFlag] = useState(0)
     const {state, dispatch} = useContext(CriticStore)
     const restaurants = state.restaurants
     const appUser = state.appUser
     const restaurantsHaveMoreResults = state.restaurantsHaveMoreResults
 
     useEffect(() => {
+        if (appUser === null) return;
         apiService.loadRestaurants(filter.rating, filter.name, filter.page, (appUser.role === ROLES.OWNER ? appUser.id : null))
                   .then(restaurants => {
                     if (filter.page > 0 && restaurants.length > 0)
@@ -37,16 +40,28 @@ function RestaurantsContainer() {
                     else
                         return dispatch(CriticActions.setRestaurants(restaurants)) 
                   })
-    }, [filter])
+    }, [filter, fetchFlag])
 
     const addRestaurant = () => setAddingRestaurant(true)
     const cancelRestaurantAddition = () => setAddingRestaurant(false)
-    const performAddRestaurant = () => {
-        setAddingRestaurant(false)
-        console.log("PERFORM ADD RESTAURANT")
+    const performAddRestaurant = (restaurant) => {
+        restaurant.owner = appUser.id;
+        apiService.addRestaurant(restaurant)
+                  .then(() => {
+                      setAddingRestaurant(false)
+                      setFetchFlag(fetchFlag + 1)
+                  })
+    }
+    const editRestaurant = (restaurant) => setEditingRestaurant(restaurant)
+    const cancelRestaurantEdition = () => setEditingRestaurant(null)
+    const performEditRestaurant = (restaurant) => {
+        apiService.editRestaurant(restaurant)
+                  .then(() => {
+                      setEditingRestaurant(null)
+                      setFetchFlag(fetchFlag + 1)
+                  })
     }
     const deleteRestaurant = () => {}
-    const editRestaurant = () => {}
     const goToReviews = (restaurantId) => history.push(`/restaurants/${restaurantId}`)
     const loadMore = () => {
         setFilter({...filter, page: filter.page + 1})
@@ -61,6 +76,10 @@ function RestaurantsContainer() {
                 <RestaurantEditable restaurant={{}} title="Add Restaurant" confirmButton="Add" 
                                     onCancel={cancelRestaurantAddition} onConfirm={performAddRestaurant} />
             }
+            {editingRestaurant && 
+                <RestaurantEditable restaurant={editingRestaurant} title="Edit Restaurant" confirmButton="Edit" 
+                                    onCancel={cancelRestaurantEdition} onConfirm={performEditRestaurant} />
+            }
             {appUser?.role === "owner" &&
                 <RestaurantsHeaderOwner onAddRestaurantClick={addRestaurant}/>
             }
@@ -72,7 +91,7 @@ function RestaurantsContainer() {
                                     showEdit={appUser.role === ROLES.OWNER || appUser.role === ROLES.ADMIN}
                                     showDelete={appUser.role === ROLES.ADMIN}
                                     onDeleteClick={deleteRestaurant}
-                                    onEditClick={editRestaurant}
+                                    onEditClick={() => editRestaurant(restaurant) }
                                     onReviewsClick={goToReviews} />
                 ))}
                 

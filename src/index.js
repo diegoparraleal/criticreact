@@ -3,11 +3,15 @@ import { debugContextDevtool } from 'react-context-devtool';
 import ReactDOM from 'react-dom';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
+import {GOOGLE_API_KEY} from './env'
 
 const container = document.getElementById('root')
 ReactDOM.render(
   //<React.StrictMode>
-    <App />
+    <>
+      <script src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`} ></script>
+      <App />
+    </>
   //</React.StrictMode>
   ,
   container

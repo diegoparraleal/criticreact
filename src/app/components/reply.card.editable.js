@@ -2,7 +2,7 @@ import { Button, TextField } from '@material-ui/core';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import ErrorMessage from './error.message';
+import ErrorMessage from './validations/error.message';
 
 const StyledReplyCardEditable = styled.div`
   .crt-review-reply-editable{

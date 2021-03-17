@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
   .crt-label-title{
     color: ${criticTheme.palette.primary.light};
     font-size: 22px;
+    font-family: 'Roboto';
   }
   
   .crt-comment-tooltip{
@@ -33,6 +34,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${criticPalette.light} !important;
     color: ${criticPalette.primary} !important;
     font-size: 13px !important;
+    font-family: 'Roboto';
   }
 
   .crt-error{
@@ -41,6 +43,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 12px;
     width: 100%;
     text-align: left;
+    font-family: 'Roboto';
   }
 `
 

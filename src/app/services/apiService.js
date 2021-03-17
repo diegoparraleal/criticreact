@@ -58,5 +58,14 @@ export const apiService = {
     async postReply(restaurantId, reviewId, reply){
         return await axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews/${reviewId}/reply`, reply)
     },
+
+    
+    async addRestaurant(restaurant) {
+        return await axios.post(`${SERVER_URL}/restaurants`, restaurant);
+    },
+
+    async editRestaurant(restaurant) {
+        return await axios.put(`${SERVER_URL}/restaurants/${restaurant.id}`, restaurant);
+    },
     
 }

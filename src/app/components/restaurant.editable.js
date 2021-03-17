@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@material-ui/core';
-import { Controller, useForm } from 'react-hook-form';
-import ErrorMessage from './error.message';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@material-ui/core';
+import RequiredNumber from './validations/required.number';
+import RequiredText from './validations/required.text';
+import RequiredGoogleAutocomplete from './validations/required.google.autocomplete';
+import { useForm } from 'react-hook-form';
 
 const StyledRestaurantEditableDialog = styled(Dialog)`
     .MuiDialog-paperWidthSm {
@@ -15,25 +17,23 @@ const StyledRestaurantEditableDialog = styled(Dialog)`
         > div {
             width: 100%;
             margin-bottom: 16px;
-
-            .MuiFormControl-root{
-                width: 100%;
-            }
         }
     }
 
     .crt-title{
         text-transform: uppercase;
     }
+
+    .crt-error {
+        margin-top: -14px
+    }
 `;
 
 
 function RestaurantEditable({restaurant, title, confirmButton, onCancel, onConfirm}) {
     const {handleSubmit, errors, control} = useForm()
-
-    const confirm = (data) => {
-        console.log(data)
-    }
+    const confirm = ({name, description, city, address, price, image}) => onConfirm({...restaurant, name, description, city, address, price, image})
+    const imageUrlRegex = /^(https?:\/\/?.*)|(data:image\/jpeg.*)/i;
 
     return (
         <StyledRestaurantEditableDialog open={true} onClose={onCancel} aria-labelledby="form-dialog-title" className="crt-dialog">
@@ -42,60 +42,15 @@ function RestaurantEditable({restaurant, title, confirmButton, onCancel, onConfi
                     <Typography color="primary" className="crt-title">{title}</Typography>
                 </DialogTitle>
                 <DialogContent className="crt-dialog-content">
-                    <div>
-                        <Controller control={control} name="name" defaultValue={restaurant.name} 
-                                    rules={{ required: "The name is required" }}
-                                        render={(props) => (
-                                            <TextField  multiline name="name" value={props.value} 
-                                                        label="Please add a name" onChange={props.onChange} inputProps={{ maxLength: 200 }} />
-                                        )} />
-                        <ErrorMessage errors={errors} name="name"/>
-                    </div>
-                    <div>
-                        <Controller control={control} name="description" defaultValue={restaurant.name} 
-                                    rules={{ required: "The description is required" }}
-                                        render={(props) => (
-                                            <TextField  multiline name="description" value={props.value} 
-                                                        label="Please add a description" onChange={props.onChange} inputProps={{ maxLength: 4000 }} />
-                                        )} />
-                        <ErrorMessage errors={errors} name="description"/>
-                    </div>
-                    <div>
-                        <Controller control={control} name="city" defaultValue={restaurant.name} 
-                                    rules={{ required: "The city is required" }}
-                                        render={(props) => (
-                                            <TextField  multiline name="city" value={props.value} 
-                                                        label="Please add a city" onChange={props.onChange} inputProps={{ maxLength: 4000 }} />
-                                        )} />
-                        <ErrorMessage errors={errors} name="city"/>
-                    </div>
-                    <div>
-                        <Controller control={control} name="address" defaultValue={restaurant.name} 
-                                    rules={{ required: "The address is required" }}
-                                        render={(props) => (
-                                            <TextField  multiline name="address" value={props.value} 
-                                                        label="Please add a address" onChange={props.onChange} inputProps={{ maxLength: 4000 }} />
-                                        )} />
-                        <ErrorMessage errors={errors} name="address"/>
-                    </div>
-                    <div>
-                        <Controller control={control} name="prices" defaultValue={restaurant.name} 
-                                    rules={{ required: "The prices is required" }}
-                                        render={(props) => (
-                                            <TextField  multiline name="prices" value={props.value} 
-                                                        label="Please add a prices" onChange={props.onChange} inputProps={{ maxLength: 4000 }} />
-                                        )} />
-                        <ErrorMessage errors={errors} name="prices"/>
-                    </div>
-                    <div>
-                        <Controller control={control} name="image" defaultValue={restaurant.name} 
-                                    rules={{ required: "The image is required" }}
-                                        render={(props) => (
-                                            <TextField  multiline name="image" value={props.value} 
-                                                        label="Please add a image" onChange={props.onChange} inputProps={{ maxLength: 4000 }} />
-                                        )} />
-                        <ErrorMessage errors={errors} name="image"/>
-                    </div>
+                    <RequiredText control={control} errors={errors} name="name" label="Name" defaultValue={restaurant.name} maxLength={200} />
+                    <RequiredText control={control} errors={errors} name="description" label="Description" defaultValue={restaurant.description} maxLength={4000} />
+                    <RequiredGoogleAutocomplete control={control} errors={errors} name="city" label="City" defaultValue={restaurant.city} maxLength={100}
+                                                options={{types: ['(cities)']}} />
+                    <RequiredGoogleAutocomplete control={control} errors={errors} name="address" label="Address" defaultValue={restaurant.address} maxLength={4000} 
+                                                options={{types: ['(address)']}}/>
+                    <RequiredNumber control={control} errors={errors} name="price" label="Average Price" defaultValue={restaurant.price} adornment="$" />
+                    <RequiredText control={control} errors={errors} name="image" label="Image url" defaultValue={restaurant.image} maxLength={4000} 
+                                  pattern={imageUrlRegex} patternMessage="Please enter a valid url address"/>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="outlined" onClick={onCancel} color="primary">
