@@ -9,6 +9,7 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ReviewCard from 'app/components/review.card';
 import { useParams } from 'react-router-dom';
 import ReviewCardEditable from 'app/components/review.card.editable';
+import ConfirmDialog from 'app/components/confirm.dialog';
 
 const StyledRestaurantDetailContainer = styled.div`
     .crt-restaurant-detail-links{
@@ -89,6 +90,8 @@ function RestaurantDetailContainer() {
     const [fetchFlag, setFetchFlag] = React.useState(0);
     const [page, setPage] = useState(0)
     const [addingReview, setAddingReview] = useState(false)
+    const [editingReview, setEditingReview] = useState(null)
+    const [deletingReview, setDeletingReview] = useState(null)
     const [newReview, setNewReview] = useState({})
     const {state, dispatch} = useContext(CriticStore)
     const {appUser, restaurant: restaurantWithDetails , reviewsHaveMoreResults} = state
@@ -119,8 +122,25 @@ function RestaurantDetailContainer() {
         apiService.postReview(restaurantId, {...review, })
                   .then( () => setFetchFlag(fetchFlag + 1))
     }
-    const editReview = () => {}
-    const deleteReview = () => {}
+    const editReview = (review) => setEditingReview(review)
+    const cancelEditingReview = () => setEditingReview(null)
+    const performEditReview = (review) => {
+        apiService.editReview(restaurantId, review.id, review)
+                  .then( () => {
+                        setEditingReview(null)
+                        setFetchFlag(fetchFlag + 1)
+                  })
+        setEditingReview(null)
+    }
+    const deleteReview = (review) => setDeletingReview(review)
+    const cancelDeletingReview = () => setDeletingReview(null)
+    const performDeleteReview = () => {
+        apiService.deleteReview(restaurantId, deletingReview.id)
+                  .then( () => {
+                        setDeletingReview(null)
+                        setFetchFlag(fetchFlag + 1)
+                  })
+    }
     const postReply = () => {}
     const loadMore = () => {
         setPage(page + 1)
@@ -132,6 +152,10 @@ function RestaurantDetailContainer() {
     if (restaurant === {}) return (<>...</>)
     return (
         <StyledRestaurantDetailContainer>
+            {deletingReview && 
+                <ConfirmDialog title="Delete Review" message="Are you sure you want to delete this review?" 
+                               onCancel={cancelDeletingReview} onConfirm={() => performDeleteReview()} />
+            }
             <div className="crt-restaurant-detail-header">
                 <RestaurantCard  restaurant={restaurant} showReviews={false} />
             </div>
@@ -165,7 +189,9 @@ function RestaurantDetailContainer() {
                 <div className="crt-restaurant-detail-reviews">
                 <label className="crt-label-title">All reviews</label>
                 {reviews.map( review => (
-                    <ReviewCard key={review.id}
+                    editingReview !== null && editingReview.id === review.id
+                    ?<ReviewCardEditable key={review.id} review={review} editing={true} onCancel={cancelEditingReview} onEdit={performEditReview}/>
+                    :<ReviewCard key={review.id}
                                 review={review} 
                                 showEdit={appUser?.role === ROLES.ADMIN}
                                 showDelete={appUser?.role === ROLES.ADMIN}

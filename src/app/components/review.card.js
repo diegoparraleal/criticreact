@@ -140,13 +140,13 @@ function ReviewCard({review, className = "", showBorder = true, showEdit = false
                     <Typography component="h4">{formatDate(review.date)}</Typography>
                     <span className="crt-review-links">
                         {showEdit && 
-                            <Button onClick={() => onEdit(review.id)}>Edit</Button>
+                            <Button color="secondary" onClick={() => onEdit(review)}>Edit</Button>
                         }
                         {showDelete && 
-                            <Button onClick={() => onDelete(review.id)}>Delete</Button>
+                            <Button color="secondary" onClick={() => onDelete(review)}>Delete</Button>
                         }
                     </span>
-                    <Rating name="reviewRating" className="crt-rating" value={review.rating} size="large" readOnly  />
+                    <Rating name="reviewRating" precision={0.5}  className="crt-rating" value={review.rating} size="large" readOnly  />
                 </div>
                 <div className="crt-review-card-content">
                     <Tooltip open={review?.comment.length > 500} placement="top" title="">

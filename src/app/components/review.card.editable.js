@@ -1,4 +1,5 @@
 import { Button, TextField } from '@material-ui/core';
+import { Reply } from '@material-ui/icons';
 import { Rating } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { datePickerDefaultProps } from '@material-ui/pickers/constants/prop-types';
@@ -6,6 +7,9 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import ErrorMessage from './validations/error.message';
+import RequiredDate from './validations/required.date';
+import RequiredRating from './validations/required.rating';
+import RequiredText from './validations/required.text';
 const StyledReviewCardEditable = styled.div`
     padding: 16px;
 
@@ -41,52 +45,41 @@ const StyledReviewCardEditable = styled.div`
     }
     .crt-review-card-buttons{
         text-align: right;
-
+        margin-top: 16px;
         Button{
             margin-left: 16px;
         }
     }
 `;
 
-function ReviewCardEditable({review, showBorder = true, onCancel, onAdd}) {
+function ReviewCardEditable({review, showBorder = true, editing=false, onCancel = () => {}, onAdd = (_) => {}, onEdit = (_) => {}}) {
     const {handleSubmit, errors, control} = useForm();
-    const add = ({date, rating, comment}) => onAdd({...review, date, rating, comment})
+    const confirm = ({date, rating, comment, replyComment}) => {
+        if (!editing) return onAdd({...review, date, rating, comment})
+        onEdit({...review, date, rating, comment, reply: (review.reply != null ? {...review.reply, comment: replyComment} : null)})
+    }
     return (
         <StyledReviewCardEditable className={showBorder ? "crt-border" : ""}>
-            <form onSubmit={handleSubmit(add)}>
+            <form onSubmit={handleSubmit(confirm)}>
                 <div className="crt-review-card-header">
                     <img src={review.userImage} alt="userImage"/>
                     <span className="crt-review-editable-date" >
-                        <Controller control={control} name="date" defaultValue={review.date}
-                                    rules={{ required: "The date is required" }}
-                                    render={(props) => (
-                                        <KeyboardDatePicker defaultValue={datePickerDefaultProps}  disableToolbar variant="inline" format="MM/dd/yyyy" margin="normal"  
-                                                            label="Date of visit" name="date" value={props.value} onChange={props.onChange} />
-                                    )} />
-                        <ErrorMessage errors={errors} name="date"/>
+                        <RequiredDate control={control} errors={errors} name="date" label="Date of visit" defaultValue={review.date} />
                     </span>
                     <span className="crt-rating" >
-                        <Controller control={control} name="rating" defaultValue={review.rating} 
-                                    rules={{ min: { value: 0.5, message: "The rating is required"} }}
-                                    render={(props) => (
-                                        <Rating name="reviewRating"  precision={0.5}  value={props.value} size="large"
-                                                onChange={(e, newValue) => props.onChange(newValue)} />
-                                    )} />
-                        <ErrorMessage errors={errors} name="rating"/>
+                        <RequiredRating control={control} errors={errors} name="rating" label="Rating" defaultValue={review.rating} />
                     </span>
                 </div>
                 <div className="crt-review-card-content" >
-                    <Controller control={control} name="comment" defaultValue={review.comment} 
-                                rules={{ required: "The comment is required" }}
-                                    render={(props) => (
-                                        <TextField  multiline className="crt-review-editable-comment"  name="comment" value={props.value} 
-                                                    label="Please add a review" onChange={props.onChange} inputProps={{ maxLength: 4000 }} />
-                                    )} />
-                    <ErrorMessage errors={errors} name="comment"/>
+                    <RequiredText control={control} errors={errors} name="comment" label="Review" defaultValue={review.comment} maxLength={4000} />
                 </div>
+                {review.reply && 
+                    <RequiredText control={control} errors={errors} name="replyComment" label="Reply" defaultValue={review.reply.comment} maxLength={4000} />
+                }
                 <div className="crt-review-card-buttons" >
                     <Button variant="outlined" color="secondary" onClick={onCancel}>Cancel</Button>
-                    <Button variant="contained" color="secondary" type="submit">Add</Button>
+                    {!editing && <Button variant="contained" color="secondary" type="submit">Add</Button>}
+                    {editing && <Button variant="contained" color="secondary" type="submit">Edit</Button>}
                 </div>
             </form>
         </StyledReviewCardEditable>

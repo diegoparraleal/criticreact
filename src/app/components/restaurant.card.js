@@ -87,7 +87,7 @@ function RestaurantCard({restaurant, showEdit = false, showDelete = false, showR
                          onEditClick = () => {}, 
                          onDeleteClick  = () => {}, 
                          onReviewsClick  = () => {}}) {
-
+    if (restaurant === {}) return (<>...</>)
     return (
         <StyledRestaurantCard className="crt-border">
              <div className="crt-restaurant-card-wrapper">

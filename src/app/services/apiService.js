@@ -47,6 +47,14 @@ export const apiService = {
         return await axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, review)
     },
 
+    async deleteReview(restaurantId, reviewId){
+        return await axios.delete(`${SERVER_URL}/restaurants/${restaurantId}/reviews/${reviewId}`)
+    },
+
+    async editReview(restaurantId, reviewId, review){
+        return await axios.put(`${SERVER_URL}/restaurants/${restaurantId}/reviews/${reviewId}`, review)
+    },
+
     async loadPendingReviews(ownerId){
         const params = {
             ownerId: ownerId || null,
@@ -58,7 +66,6 @@ export const apiService = {
     async postReply(restaurantId, reviewId, reply){
         return await axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews/${reviewId}/reply`, reply)
     },
-
     
     async addRestaurant(restaurant) {
         return await axios.post(`${SERVER_URL}/restaurants`, restaurant);
@@ -66,6 +73,10 @@ export const apiService = {
 
     async editRestaurant(restaurant) {
         return await axios.put(`${SERVER_URL}/restaurants/${restaurant.id}`, restaurant);
+    },
+
+    async deleteRestaurant(restaurantId) {
+        return await axios.delete(`${SERVER_URL}/restaurants/${restaurantId}`);
     },
     
 }
